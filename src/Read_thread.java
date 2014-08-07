@@ -14,7 +14,7 @@ public class Read_thread extends CommPortOpen implements Runnable {
 	this.buffer = buffer;
 	this.offset = offset;
 	}
-	Long target,adesso;
+	Long target, now;
 	public void setOffset(Long newoffset)
 	{
 		synchronized (offset) {
@@ -25,15 +25,15 @@ public class Read_thread extends CommPortOpen implements Runnable {
 	@Override
 	public void run() {
 		
-		adesso=System.currentTimeMillis();
-		target = adesso+offset;
+		now =System.currentTimeMillis();
+		target = now +offset;
 		GruppoDati attuale = new GruppoDati();
-		//System.out.println("target = "+target.toString()+" adesso ="+adesso.toString());
+		//System.out.println("target = "+target.toString()+" now ="+now.toString());
 		while(true)
 		{
-			adesso = System.currentTimeMillis();
-			//System.out.println("target = "+target.toString()+" adesso ="+adesso.toString());
-			if(target>adesso)
+			now = System.currentTimeMillis();
+			//System.out.println("target = "+target.toString()+" now ="+now.toString());
+			if(target> now)
 			{
 				try {
 					//System.out.println("sono qui e leggo");
@@ -53,7 +53,7 @@ public class Read_thread extends CommPortOpen implements Runnable {
 				buffer.notify();
 				//System.out.println("ho svegliato scrittore");
 			}
-			target = adesso+offset;
+			target = now +offset;
 			}
 		}
 	}
